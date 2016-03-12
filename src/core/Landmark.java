@@ -2,8 +2,8 @@ package core;
 
 public class Landmark {
 	
-	public double _xPos;
-	public double _yPos;
+	public final double _xPos;
+	public final double _yPos;
 	
 	public Landmark(double xPos, double yPos) {
 		this._xPos = xPos;
