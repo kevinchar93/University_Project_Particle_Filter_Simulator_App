@@ -88,13 +88,15 @@ public class Robot {
 	}
 
 	public List<Double> sense() {
+		
 		List<Double> readings = new ArrayList<>();
 		double distance = 0.0;
 		double x_pos_sq = 0.0;
 		double y_pos_sq = 0.0;
 
 		for (Landmark currLandmark : _landmarks) {
-			// use pythagoras to calculate distance between robot and land mark
+			
+			// calculate the distance to the landmark - using trig
 			x_pos_sq = Math.pow(_xPos - currLandmark._xPos, 2);
 			y_pos_sq = Math.pow(_yPos - currLandmark._yPos, 2);
 
@@ -107,16 +109,8 @@ public class Robot {
 	}
 
 	public Robot move(double turn, double forward) {
-
-		String turnDir;
-		if (turn >= 0) {
-			turnDir = "counter clockwise";
-		} else {
-			turnDir = "clockwise";
-		}
-
-		// PApplet.println(String.format("Turn: %.3f %s, Move: %.3f"
-		// ,Math.toDegrees(Math.abs(turn)),turnDir, forward));
+		
+		//String turnDir = (turn >= 0) ? "counter clockwise" : "clockwise";
 
 		if (forward < 0) {
 			return null;
@@ -140,8 +134,8 @@ public class Robot {
 	}
 
 	public double measurementProb(List<Double> measurementVec) {
+		
 		double prob = 1.0;
-
 		double dist = 0.0;
 		double xPosSq = 0.0;
 		double yPosSq = 0.0;

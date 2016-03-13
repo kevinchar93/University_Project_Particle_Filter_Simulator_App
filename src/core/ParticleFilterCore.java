@@ -1,5 +1,6 @@
 package core;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 import processing.core.*;
@@ -56,70 +57,14 @@ public class ParticleFilterCore extends PApplet {
 		particlesList = weighParticles(particlesList, sensorReadings);
 		// PApplet.println(particlesList.get(400).getWeight());
 
-		double A = 18.0 / 35.0;
-		double B = 9.0 / 35.0;
-		double C = 23.0 / 175.0;
-		double D = 12.0 / 175.0;
-		double E = 1.0 / 35.0;
-
-		double A_itv_begin = 0.0 + A;
-		double B_itv_begin = A_itv_begin + B;
-		double C_itv_begin = B_itv_begin + C;
-		double D_itv_begin = C_itv_begin + D;
-		double E_itv_begin = D_itv_begin + E;
-
-		// PApplet.println(A_itv_begin);
-
-		String[] strList = new String[5];
-		strList[0] = "A range";
-		strList[1] = "B range";
-		strList[2] = "C range";
-		strList[3] = "D range";
-		strList[4] = "E range";
-
-		double[] probs = new double[5];
-		probs[0] = 18.0 / 35.0;
-		probs[1] = 9.0 / 35.0;
-		probs[2] = 23.0 / 175.0;
-		probs[3] = 12.0 / 175.0;
-		probs[4] = 1.0 / 35.0;
-
-		NavigableMap<Double, String> demoMap = new TreeMap();
-		double rangeSum = 0.0;
-		for (int i = 0; i < probs.length; i++) {
-
-			double currentProb = probs[i];
-			rangeSum += currentProb;
-			PApplet.println(rangeSum);
-			demoMap.put(rangeSum, strList[i]);
-		}
-
+		particlesList = resampleParticles(particlesList);
 		
-
-		for (int i = 0; i < 100; i++) {
-			double randVal = rand.nextDouble();
-			PApplet.println(demoMap.get(demoMap.ceilingKey(randVal)), " ", randVal);
+		// print resamples particles
+		int i = 0;
+		for (Robot par : particlesList) {
+			PApplet.println(i, " ",par);
+			i++;
 		}
-
-		/*
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.22222)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.312413413)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.5231232)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.70280325)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.7783974)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.8293842)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.912103)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.955402)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.981331)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(0.99345)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(01.0)));
-		 * PApplet.println(demoMap.get(demoMap.ceilingKey(18.0 / 35.0)));
-		 * 
-		 * 
-		 * /* A 0.5142857142857142 B 0.7714285714285714 C 0.9028571428571428 D
-		 * 0.9714285714285714 E 1.0
-		 */
-
 	}
 
 	public void draw() {
@@ -260,32 +205,35 @@ public class ParticleFilterCore extends PApplet {
 
 		// map the particles to a finite range less than 1 that defines
 		// how likely they are to be correct, re-sample based on this map
-		NavigableMap<Double, Robot> probMap = new TreeMap<>();
+		NavigableMap<BigDecimal, Robot> probMap = new TreeMap<>();
 		final int ORIGIN_SIZE = originParticles.size();
 
 		// accumulate the probability of each particle into probabilitySum and
 		// use it to give each particle a slice of the values from 0 - 1
-		double probSum = 0.0;
+		BigDecimal probSum = new BigDecimal(0.0);
 		for (Robot currParticle : originParticles) {
 
-			double currentProb = currParticle.getNormalisedWeight();
-			probSum += currentProb;
+			// BigDecimal used for arbitrary precision arithmetic
+			BigDecimal currentProb = new BigDecimal(currParticle.getNormalisedWeight());
+			probSum = probSum.add(currentProb);
 			probMap.put(probSum, currParticle);
 		}
-		
+
 		// create a new empty list of particles to store the new samples
-		List<Robot> newParticles  = new ArrayList<>(ORIGIN_SIZE); 
-		
+		List<Robot> newParticles = new ArrayList<>(ORIGIN_SIZE);
+
 		// Loop through the probMap and randomly generate N keys to pick out
-		// N new particles for the re-sample, the probability of a particle being 
-		// picked depends on the plausibility of the particles measurement vector
-		for (int i = 0; i < ORIGIN_SIZE; i ++) {
-			
-			double randVal = rand.nextDouble();
+		// N new particles for the re-sample, the probability of a particle
+		// being picked depends on the plausibility of the particles measurement
+		// vector
+		for (int i = 0; i < ORIGIN_SIZE; i++) {
+
+			// use random num between [0 : 1) to choose particle
+			BigDecimal randVal = new BigDecimal(rand.nextDouble());
 			Robot pickedParticle = probMap.get(probMap.ceilingKey(randVal));
-			
-			// NOTE: we use the copy constructor here as each particle must be a new one
-			// with its own independent memory & attributes - to move on its own
+
+			// NOTE: we use the copy constructor here as each particle must be a
+			// new distinct particle with its own allocated memory & attributes
 			newParticles.add(new Robot(pickedParticle));
 		}
 
