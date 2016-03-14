@@ -32,7 +32,7 @@ public class ParticleFilterCore extends PApplet {
 	int Black = color(0);
 
 	public void settings() {
-		size(100, 100);
+		size(1000, 1000);
 		noSmooth();
 	}
 
@@ -54,16 +54,16 @@ public class ParticleFilterCore extends PApplet {
 		
 		//for (int i = 0; i < 40; i++) {
 			
-			particlesList = moveParticles(particlesList, 0.1, 5);
+			//particlesList = moveParticles(particlesList, 0.1, 5);
 			// PApplet.println(particlesList.get(400));
 
-			sensorReadings = robot.sense();
-			particlesList = weighParticles(particlesList, sensorReadings);
+			//sensorReadings = robot.sense();
+			//particlesList = weighParticles(particlesList, sensorReadings);
 			// PApplet.println(particlesList.get(400).getWeight());
 
 			//long startTime = System.currentTimeMillis();
 			
-			particlesList = resampleParticlesDouble(particlesList);
+			//particlesList = resampleParticlesDouble(particlesList);
 			
 			//long endTime = System.currentTimeMillis();
 		    //System.out.println("Total execution time: " + (endTime-startTime) + "ms\n\n"); 
@@ -89,9 +89,9 @@ public class ParticleFilterCore extends PApplet {
 
 		//long startTime = System.currentTimeMillis();
 		
-		particlesList = resampleParticlesDouble(particlesList);
+		particlesList = resampleParticlesBigDecimal(particlesList);
 		
-		strokeWeight(3);
+		strokeWeight(8);
 
 		// set up the axis to begin at bottom left
 		translate(0, height);
@@ -100,22 +100,22 @@ public class ParticleFilterCore extends PApplet {
 		// landmark points
 		stroke(Green);
 		for (Landmark currLandmark : landmarks) {
-			point((float) currLandmark._xPos, (float) currLandmark._yPos);
+			point((float) (currLandmark._xPos*10), (float) (currLandmark._yPos*10));
 		}
 
 		
 		
 		// draw particles
-		strokeWeight(1);
+		strokeWeight(4);
 		stroke(Red);
 		for (Robot par : particlesList) {
-			point((float) par.getX(), (float) par.getY());
+			point((float) (par.getX()*10), (float) (par.getY()*10));
 		}
 		
 		// draw robot
-		strokeWeight(4);
+		strokeWeight(8);
 		stroke(White);
-		point((float) robot.getX(), (float) robot.getY());
+		point((float) (robot.getX()*10), (float) (robot.getY()*10));
 		
 		delay(100);
 	}
