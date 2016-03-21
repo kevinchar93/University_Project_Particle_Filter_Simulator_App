@@ -6,12 +6,12 @@ import java.util.Map.Entry;
 
 import processing.core.*;
 
-public class ParticleFilterCore extends PApplet {
+public class CoreUI extends PApplet {
 
 	// Create default variables
 	List<Landmark> landmarks = new ArrayList<>();
 	final double WORLD_SIZE = 100.0;
-	int maxParticles = 1000;
+	int maxParticles = 500;
 	Robot robot;
 	Random rand = new Random();
 

@@ -8,7 +8,7 @@ public class ProcessingLauncher {
 	{
 		
 		String[] str = {"Main"};
-		PApplet.runSketch(str, new ParticleFilterCore());
+		PApplet.runSketch(str, new CoreUI());
 	}
 	
 }
