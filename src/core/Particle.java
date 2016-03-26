@@ -44,6 +44,20 @@ public class Particle extends Robot {
 		return prob;
 	}
 	
+	void draw() {
+		int Yellow 	= _parent.color(255, 255, 0);
+		int Red 	= _parent.color(255, 0, 0);
+		int Green 	= _parent.color(0, 255, 0);
+		int Blue 	= _parent.color(0, 0, 255);
+		int White 	= _parent.color(255);
+		int Black 	= _parent.color(0);
+		
+		_parent.strokeWeight(0);
+		_parent.fill(Red);
+		_parent.ellipseMode(PApplet.CENTER);
+		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 10, 10);
+	}
+	
 	
 	public double getWeight() {
 		return _weight;

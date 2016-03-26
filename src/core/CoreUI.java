@@ -41,10 +41,10 @@ public class CoreUI extends PApplet {
 		background(0);
 
 		// setup the landmarks in the world
-		landmarks.add(new Landmark(20.0, 20.0));
-		landmarks.add(new Landmark(80.0, 80.0));
-		landmarks.add(new Landmark(20.0, 80.0));
-		landmarks.add(new Landmark(80.0, 20.0));
+		landmarks.add(new Landmark(this, 20.0, 20.0));
+		landmarks.add(new Landmark(this, 80.0, 80.0));
+		landmarks.add(new Landmark(this, 20.0, 80.0));
+		landmarks.add(new Landmark(this, 80.0, 20.0));
 
 		// create robot - give map of world
 		robot = new Robot(this, WORLD_SIZE, landmarks);
@@ -56,7 +56,32 @@ public class CoreUI extends PApplet {
 
 	public void draw() {
 		
-		background(0);
+		background(255);
+		
+		
+		translate(0, height);
+		scale(1, -1);
+
+		// landmark points
+		//stroke(Green);
+		for (Landmark currLandmark : landmarks) {
+			currLandmark.draw();
+			//point((float) (currLandmark._xPos*10), (float) (currLandmark._yPos*10));
+		}
+
+		// draw particles
+		//strokeWeight(4);
+		//stroke(Red);
+		for (Particle par : particlesList) {
+			par.draw();
+			//point((float) (par.getX()*10), (float) (par.getY()*10));
+		}
+		
+		// draw robot
+		//strokeWeight(8);
+		//stroke(White);
+		robot.draw();
+		
 		robot = robot.move(0.1, 5);
 		particlesList = moveParticles(particlesList, 0.1, 5);
 
@@ -65,30 +90,9 @@ public class CoreUI extends PApplet {
 		
 		particlesList = resampleParticlesBigDecimal(particlesList);
 		
-		strokeWeight(8);
-
-		translate(0, height);
-		scale(1, -1);
-
-		// landmark points
-		stroke(Green);
-		for (Landmark currLandmark : landmarks) {
-			point((float) (currLandmark._xPos*10), (float) (currLandmark._yPos*10));
-		}
-
-		// draw particles
-		strokeWeight(4);
-		stroke(Red);
-		for (Particle par : particlesList) {
-			point((float) (par.getX()*10), (float) (par.getY()*10));
-		}
+		//point((float) (robot.getX()*10), (float) (robot.getY()*10));
 		
-		// draw robot
-		strokeWeight(8);
-		stroke(White);
-		point((float) (robot.getX()*10), (float) (robot.getY()*10));
-		
-		delay(100);
+		delay(1000);
 	}
 
 	/**
