@@ -14,48 +14,41 @@ public class Robot {
 	List<Landmark> _landmarks = new ArrayList<>();
 
 	// pose information
-	private double _xPos = 0.0;
-	private double _yPos = 0.0;
-	private double _heading = 0.0;
+	protected double _xPos = 0.0;
+	protected double _yPos = 0.0;
+	protected double _heading = 0.0;
 
 	// uncertainty information
-	private double _forwardNoise = 0.0;
-	private double _turnNoise = 0.0;
-	private double _senseNoise = 0.0;
+	protected double _forwardNoise = 0.0;
+	protected double _turnNoise = 0.0;
+	protected double _senseNoise = 0.0;
 
-	// information related to particles
-	private double _weight = -1.0; 		// negative indicates weight not yet set
-	private double _weightNormalised = -1.0;
-	
-	private Random rand = new Random();
+	protected Random _rand = new Random();
 
 	public Robot(PApplet parent, double worldSize, List<Landmark> landmarks) {
 
-		this._parent = parent;
-		this._worldSize = worldSize;
-		this._landmarks.addAll(landmarks);
+		_parent = parent;
+		_worldSize = worldSize;
+		_landmarks.addAll(landmarks);
 
 		// randomly initialize the pose of the robot
-		this._xPos = worldSize * rand.nextDouble();
-		this._yPos = worldSize * rand.nextDouble();
-		this._heading = (2 * Math.PI) * rand.nextDouble();
+		_xPos = worldSize * _rand.nextDouble();
+		_yPos = worldSize * _rand.nextDouble();
+		_heading = (2 * Math.PI) * _rand.nextDouble();
 	}
 	
 	public Robot(Robot robot) {
 		
-		super();
-		this._parent = robot._parent;
-		this._worldSize = robot._worldSize;
-		this._landmarks = robot._landmarks;
-		this._xPos = robot._xPos;
-		this._yPos = robot._yPos;
-		this._heading = robot._heading;
-		this._forwardNoise = robot._forwardNoise;
-		this._turnNoise = robot._turnNoise;
-		this._senseNoise = robot._senseNoise;
-		this._weight = robot._weight;
-		this._weightNormalised = robot._weightNormalised;
-		this.rand = new Random();
+		_parent = robot._parent;
+		_worldSize = robot._worldSize;
+		_landmarks = robot._landmarks;
+		_xPos = robot._xPos;
+		_yPos = robot._yPos;
+		_heading = robot._heading;
+		_forwardNoise = robot._forwardNoise;
+		_turnNoise = robot._turnNoise;
+		_senseNoise = robot._senseNoise;
+		_rand = new Random();
 	}
 
 
@@ -74,17 +67,17 @@ public class Robot {
 			return false;
 		}
 
-		this._xPos = in_xPos;
-		this._yPos = in_yPos;
-		this._heading = in_heading;
+		_xPos = in_xPos;
+		_yPos = in_yPos;
+		_heading = in_heading;
 
 		return true;
 	}
 
 	public void setNoise(double forward_noise, double turn_noise, double sense_noise) {
-		this._forwardNoise = forward_noise;
-		this._turnNoise = turn_noise;
-		this._senseNoise = sense_noise;
+		_forwardNoise = forward_noise;
+		_turnNoise = turn_noise;
+		_senseNoise = sense_noise;
 	}
 
 	public List<Double> sense() {
@@ -101,7 +94,7 @@ public class Robot {
 			y_pos_sq = Math.pow(_yPos - currLandmark._yPos, 2);
 
 			distance = Math.sqrt(x_pos_sq + y_pos_sq);
-			distance += rand.nextGaussian() * _senseNoise + 0.0;
+			distance += _rand.nextGaussian() * _senseNoise + 0.0;
 			readings.add(distance);
 		}
 
@@ -116,10 +109,10 @@ public class Robot {
 			return null;
 		}
 
-		double newHeading = _heading + turn + (rand.nextGaussian() * _turnNoise + 0.0);
+		double newHeading = _heading + turn + (_rand.nextGaussian() * _turnNoise + 0.0);
 		newHeading = Util.mod(newHeading, 2 * Math.PI);
 
-		double dist = forward + (rand.nextGaussian() * _forwardNoise + 0.0);
+		double dist = forward + (_rand.nextGaussian() * _forwardNoise + 0.0);
 		double newX = _xPos + (Math.cos(newHeading) * dist);
 		double newY = _yPos + (Math.sin(newHeading) * dist);
 
@@ -133,31 +126,7 @@ public class Robot {
 		return newRobot;
 	}
 
-	public double measurementProb(List<Double> measurementVec) {
-		
-		double prob = 1.0;
-		double dist = 0.0;
-		double xPosSq = 0.0;
-		double yPosSq = 0.0;
-
-		// go through each land mark a determine probability of measurements
-		// matching distance to landmarks
-		for (int i = 0; i < _landmarks.size(); i++) {
-
-			// get the current land mark from the landmark collection
-			Landmark currLandmark = _landmarks.get(i);
-
-			// calculate the distance to the landmark - using trig
-			xPosSq = Math.pow(_xPos - currLandmark._xPos, 2);
-			yPosSq = Math.pow(_yPos - currLandmark._yPos, 2);
-			dist = Math.sqrt(xPosSq + yPosSq);
-
-			// multiplying to get the joint probability of all the measurements
-			prob *= Util.gaussianFormula(measurementVec.get(i), dist, _senseNoise);
-		}
-
-		return prob;
-	}
+	
 
 	@Override
 	public String toString() {
@@ -176,19 +145,5 @@ public class Robot {
 		return _heading;
 	}
 	
-	public double getWeight() {
-		return _weight;
-	}
 	
-	public void setWeight(double weight) {
-		_weight = weight;
-	}
-
-	public double getNormalisedWeight() {
-		return _weightNormalised;
-	}
-
-	public void setNormalisedWeight(double _weightNormalised) {
-		this._weightNormalised = _weightNormalised;
-	}
 }
