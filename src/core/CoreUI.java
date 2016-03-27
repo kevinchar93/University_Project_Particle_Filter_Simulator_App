@@ -14,6 +14,7 @@ public class CoreUI extends PApplet {
 	int maxParticles = 1000;
 	Robot robot;
 	Random rand = new Random();
+	int frameCounter = 0;
 
 	double FORWARD_NOISE = 0.05;
 	double TURN_NOISE = 0.05;
@@ -32,7 +33,7 @@ public class CoreUI extends PApplet {
 	int Black = color(0);
 
 	public void settings() {
-		size(1000, 1000);
+		size(1400, 1000);
 		noSmooth();
 	}
 
@@ -54,34 +55,33 @@ public class CoreUI extends PApplet {
 
 	}
 
+	
 	public void draw() {
 		
 		background(255);
 		
+		fill(153);
+		rect(1000, 0, 400, 1000);
 		
 		translate(0, height);
 		scale(1, -1);
 
-		// landmark points
-		//stroke(Green);
+		// draw landmarks
 		for (Landmark currLandmark : landmarks) {
 			currLandmark.draw();
-			//point((float) (currLandmark._xPos*10), (float) (currLandmark._yPos*10));
 		}
 
 		// draw particles
-		//strokeWeight(4);
-		//stroke(Red);
 		for (Particle par : particlesList) {
 			par.draw();
-			//point((float) (par.getX()*10), (float) (par.getY()*10));
 		}
 		
 		// draw robot
-		//strokeWeight(8);
-		//stroke(White);
 		robot.draw();
 		
+		if (frameCounter > 4) {
+		
+		// update the position of the robot and the particles
 		robot = robot.move(0.1, 5);
 		particlesList = moveParticles(particlesList, 0.1, 5);
 
@@ -89,10 +89,11 @@ public class CoreUI extends PApplet {
 		particlesList = weighParticles(particlesList, sensorReadings);
 		
 		particlesList = resampleParticlesBigDecimal(particlesList);
+		}
 		
-		//point((float) (robot.getX()*10), (float) (robot.getY()*10));
+		frameCounter++;
 		
-		delay(1000);
+		delay(100);
 	}
 
 	/**

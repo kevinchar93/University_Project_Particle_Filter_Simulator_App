@@ -7,11 +7,15 @@ public class Landmark {
 	public final PApplet _parent;
 	public final double _xPos;
 	public final double _yPos;
+	public final int _id;
+	
+	private static int _idGenerator = 0;
 	
 	public Landmark(PApplet parent, double xPos, double yPos) {
 		_parent = parent;
 		_xPos = xPos;
 		_yPos = yPos;
+		_id = _idGenerator++;
 	}
 	
 	

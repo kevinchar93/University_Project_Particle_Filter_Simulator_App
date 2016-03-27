@@ -52,10 +52,20 @@ public class Particle extends Robot {
 		int White 	= _parent.color(255);
 		int Black 	= _parent.color(0);
 		
+		// draw center ellipse
 		_parent.strokeWeight(0);
-		_parent.fill(Red);
+		_parent.stroke(Black, 150);
+		_parent.fill(Black, 20);
 		_parent.ellipseMode(PApplet.CENTER);
 		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 10, 10);
+		
+		// draw heading pointer
+		final float lineLen = 1.0f;
+		_parent.strokeWeight(0);
+		_parent.stroke(Black, 150);
+		double endX = _xPos + (Math.cos(_heading) * lineLen);
+		double endY = _yPos + (Math.sin(_heading) * lineLen);
+		_parent.line((float)_xPos * 10, (float)_yPos * 10, (float)endX * 10, (float)endY * 10);
 	}
 	
 	

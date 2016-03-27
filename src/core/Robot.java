@@ -132,13 +132,21 @@ public class Robot {
 		int Yellow 	= _parent.color(255, 255, 0);
 		int Red 	= _parent.color(255, 0, 0);
 		int Green 	= _parent.color(0, 255, 0);
-		int Blue 	= _parent.color(0, 0, 255);
+		int Blue 	= _parent.color(30, 80, 200);
 		int White 	= _parent.color(255);
 		int Black 	= _parent.color(0);
 		
-		_parent.fill(Blue);
+		_parent.fill(Red, 200);
 		_parent.ellipseMode(PApplet.CENTER);
 		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 20, 20);
+		
+		// draw heading pointer
+		final float lineLen = 1.5f;
+		_parent.strokeWeight(2);
+		_parent.stroke(Black, 150);
+		double endX = _xPos + (Math.cos(_heading) * lineLen);
+		double endY = _yPos + (Math.sin(_heading) * lineLen);
+		_parent.line((float)_xPos * 10, (float)_yPos * 10, (float)endX * 10, (float)endY * 10);
 	}
 
 	
