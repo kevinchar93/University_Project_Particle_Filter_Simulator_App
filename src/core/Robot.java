@@ -10,7 +10,8 @@ public class Robot {
 	PApplet _parent;
 
 	// world information
-	double _worldSize;
+	final double _worldSizeWidth;
+	final double _worldSizeHeight;
 	List<Landmark> _landmarks = new ArrayList<>();
 
 	// pose information
@@ -25,22 +26,24 @@ public class Robot {
 
 	protected Random _rand = new Random();
 
-	public Robot(PApplet parent, double worldSize, List<Landmark> landmarks) {
+	public Robot(PApplet parent, double worldSizeWidth, double worldSizeHeight, List<Landmark> landmarks) {
 
 		_parent = parent;
-		_worldSize = worldSize;
+		_worldSizeWidth = worldSizeWidth;
+		_worldSizeHeight = worldSizeHeight;
 		_landmarks.addAll(landmarks);
 
 		// randomly initialize the pose of the robot
-		_xPos = worldSize * _rand.nextDouble();
-		_yPos = worldSize * _rand.nextDouble();
+		_xPos = worldSizeWidth * _rand.nextDouble();
+		_yPos = worldSizeHeight * _rand.nextDouble();
 		_heading = (2 * Math.PI) * _rand.nextDouble();
 	}
 	
 	public Robot(Robot robot) {
 		
 		_parent = robot._parent;
-		_worldSize = robot._worldSize;
+		_worldSizeWidth = robot._worldSizeWidth;
+		_worldSizeHeight = robot._worldSizeHeight;
 		_landmarks = robot._landmarks;
 		_xPos = robot._xPos;
 		_yPos = robot._yPos;
@@ -55,11 +58,11 @@ public class Robot {
 
 	public boolean setPose(double in_xPos, double in_yPos, double in_heading) {
 
-		if (in_xPos < 0 || in_xPos >= _worldSize) {
+		if (in_xPos < 0 || in_xPos >= _worldSizeWidth) {
 
 			PApplet.println("X pos outside of world");
 			return false;
-		} else if (in_yPos < 0 || in_yPos >= _worldSize) {
+		} else if (in_yPos < 0 || in_yPos >= _worldSizeHeight) {
 			PApplet.println("Y pos outside of world");
 			return false;
 		} else if (in_heading < 0 || in_heading >= 2 * Math.PI) {
@@ -102,8 +105,6 @@ public class Robot {
 	}
 
 	public Robot move(double turn, double forward) {
-		
-		//String turnDir = (turn >= 0) ? "counter clockwise" : "clockwise";
 
 		if (forward < 0) {
 			return null;
@@ -117,10 +118,10 @@ public class Robot {
 		double newY = _yPos + (Math.sin(newHeading) * dist);
 
 		// the world is cyclic , wrap the robots position
-		newX = Util.mod(newX, _worldSize);
-		newY = Util.mod(newY, _worldSize);
+		newX = Util.mod(newX, _worldSizeWidth);
+		newY = Util.mod(newY, _worldSizeHeight);
 
-		Robot newRobot = new Robot(_parent, _worldSize, _landmarks);
+		Robot newRobot = new Robot(_parent, _worldSizeWidth, _worldSizeHeight, _landmarks);
 		newRobot.setPose(newX, newY, newHeading);
 		newRobot.setNoise(_forwardNoise, _turnNoise, _senseNoise);
 		return newRobot;
@@ -130,13 +131,13 @@ public class Robot {
 	void draw() {
 		
 		int Yellow 	= _parent.color(255, 255, 0);
-		int Red 	= _parent.color(255, 0, 0);
+		int Red 	= _parent.color(255, 80, 80);
 		int Green 	= _parent.color(0, 255, 0);
 		int Blue 	= _parent.color(30, 80, 200);
 		int White 	= _parent.color(255);
 		int Black 	= _parent.color(0);
 		
-		_parent.fill(Red, 200);
+		_parent.fill(Red, 255);
 		_parent.ellipseMode(PApplet.CENTER);
 		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 20, 20);
 		

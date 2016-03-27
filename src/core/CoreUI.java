@@ -10,7 +10,8 @@ public class CoreUI extends PApplet {
 
 	// Create default variables
 	List<Landmark> landmarks = new ArrayList<>();
-	final double WORLD_SIZE = 100.0;
+	final double WORLD_SIZE_WIDTH 	= 100.0;
+	final double WORLD_SIZE_HEIGHT 	= 76.8;
 	int maxParticles = 1000;
 	Robot robot;
 	Random rand = new Random();
@@ -33,7 +34,9 @@ public class CoreUI extends PApplet {
 	int Black = color(0);
 
 	public void settings() {
-		size(1400, 1000);
+		
+		// Set for laptop screen size
+		size(1366, 768);
 		noSmooth();
 	}
 
@@ -43,14 +46,14 @@ public class CoreUI extends PApplet {
 
 		// setup the landmarks in the world
 		landmarks.add(new Landmark(this, 20.0, 20.0));
-		landmarks.add(new Landmark(this, 80.0, 80.0));
-		landmarks.add(new Landmark(this, 20.0, 80.0));
-		landmarks.add(new Landmark(this, 80.0, 20.0));
+		landmarks.add(new Landmark(this, 60.0, 60.0));
+		landmarks.add(new Landmark(this, 20.0, 60.0));
+		landmarks.add(new Landmark(this, 60.0, 20.0));
 
 		// create robot - give map of world
-		robot = new Robot(this, WORLD_SIZE, landmarks);
+		robot = new Robot(this, WORLD_SIZE_WIDTH, WORLD_SIZE_HEIGHT, landmarks);
 
-		particlesList = genParticles(maxParticles, WORLD_SIZE, landmarks, FORWARD_NOISE, TURN_NOISE, SENSOR_NOISE);
+		particlesList = genParticles(maxParticles, WORLD_SIZE_WIDTH, WORLD_SIZE_HEIGHT, landmarks, FORWARD_NOISE, TURN_NOISE, SENSOR_NOISE);
 		
 
 	}
@@ -61,7 +64,7 @@ public class CoreUI extends PApplet {
 		background(255);
 		
 		fill(153);
-		rect(1000, 0, 400, 1000);
+		rect(1000, 0, 366, height);
 		
 		translate(0, height);
 		scale(1, -1);
@@ -81,14 +84,14 @@ public class CoreUI extends PApplet {
 		
 		if (frameCounter > 4) {
 		
-		// update the position of the robot and the particles
-		robot = robot.move(0.1, 5);
-		particlesList = moveParticles(particlesList, 0.1, 5);
-
-		sensorReadings = robot.sense();
-		particlesList = weighParticles(particlesList, sensorReadings);
-		
-		particlesList = resampleParticlesBigDecimal(particlesList);
+			// update the position of the robot and the particles
+			robot = robot.move(0.1, 5);
+			particlesList = moveParticles(particlesList, 0.1, 5);
+	
+			sensorReadings = robot.sense();
+			particlesList = weighParticles(particlesList, sensorReadings);
+			
+			particlesList = resampleParticlesBigDecimal(particlesList);
 		}
 		
 		frameCounter++;
@@ -133,13 +136,13 @@ public class CoreUI extends PApplet {
 	 *            landmarks that are in the world
 	 * @return
 	 */
-	public List<Particle> genParticles(final int numParticles, double worldSize, List<Landmark> landmarks,
+	public List<Particle> genParticles(final int numParticles, double worldSizeWidth, double worldSizeHeight, List<Landmark> landmarks,
 			double forwardNoise, double turnNoise, double sensorNoise) {
 
 		List<Particle> genParticles = new ArrayList<>(numParticles);
 
 		for (int i = 0; i < numParticles; i++) {
-			Particle tempParticle = new Particle(this, worldSize, landmarks);
+			Particle tempParticle = new Particle(this, worldSizeWidth, worldSizeHeight, landmarks);
 			tempParticle.setNoise(forwardNoise, turnNoise, sensorNoise);
 			genParticles.add(tempParticle);
 		}

@@ -10,8 +10,8 @@ public class Particle extends Robot {
 	private double _weight = -1.0; 		// negative indicates weight not yet set
 	private double _weightNormalised = -1.0;
 
-	public Particle(PApplet parent, double worldSize, List<Landmark> landmarks) {
-		super(parent, worldSize, landmarks);
+	public Particle(PApplet parent, double worldSizeWidth, double worldSizeHeight, List<Landmark> landmarks) {
+		super(parent, worldSizeWidth, worldSizeHeight, landmarks);
 	}
 	
 	public Particle(Robot robot) {
@@ -54,7 +54,7 @@ public class Particle extends Robot {
 		
 		// draw center ellipse
 		_parent.strokeWeight(0);
-		_parent.stroke(Black, 150);
+		_parent.stroke(Black, 50);
 		_parent.fill(Black, 20);
 		_parent.ellipseMode(PApplet.CENTER);
 		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 10, 10);
@@ -62,7 +62,7 @@ public class Particle extends Robot {
 		// draw heading pointer
 		final float lineLen = 1.0f;
 		_parent.strokeWeight(0);
-		_parent.stroke(Black, 150);
+		_parent.stroke(Black, 50);
 		double endX = _xPos + (Math.cos(_heading) * lineLen);
 		double endY = _yPos + (Math.sin(_heading) * lineLen);
 		_parent.line((float)_xPos * 10, (float)_yPos * 10, (float)endX * 10, (float)endY * 10);

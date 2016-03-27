@@ -31,7 +31,7 @@ public class Landmark {
 		_parent.strokeWeight(0);
 		_parent.fill(Green);
 		_parent.ellipseMode(PApplet.CENTER);
-		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 20, 20);
+		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 15, 15);
 	}
 
 }
