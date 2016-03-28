@@ -1,8 +1,13 @@
 package core;
 import processing.core.*;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NavigableMap;
 import java.util.Random;
+import java.util.TreeMap;
+
 import processing.core.PApplet;
 
 public class Robot {
@@ -18,6 +23,7 @@ public class Robot {
 	protected double _xPos = 0.0;
 	protected double _yPos = 0.0;
 	protected double _heading = 0.0;
+	private double _sensorRange = 0.0;
 
 	// uncertainty information
 	protected double _forwardNoise = 0.0;
@@ -26,11 +32,12 @@ public class Robot {
 
 	protected Random _rand = new Random();
 
-	public Robot(PApplet parent, double worldSizeWidth, double worldSizeHeight, List<Landmark> landmarks) {
+	public Robot(PApplet parent, double worldSizeWidth, double worldSizeHeight, List<Landmark> landmarks, double sensorRange) {
 
 		_parent = parent;
 		_worldSizeWidth = worldSizeWidth;
 		_worldSizeHeight = worldSizeHeight;
+		_sensorRange = sensorRange;
 		_landmarks.addAll(landmarks);
 
 		// randomly initialize the pose of the robot
@@ -45,6 +52,7 @@ public class Robot {
 		_worldSizeWidth = robot._worldSizeWidth;
 		_worldSizeHeight = robot._worldSizeHeight;
 		_landmarks = robot._landmarks;
+		_sensorRange = robot._sensorRange;
 		_xPos = robot._xPos;
 		_yPos = robot._yPos;
 		_heading = robot._heading;
@@ -53,7 +61,6 @@ public class Robot {
 		_senseNoise = robot._senseNoise;
 		_rand = new Random();
 	}
-
 
 
 	public boolean setPose(double in_xPos, double in_yPos, double in_heading) {
@@ -83,9 +90,10 @@ public class Robot {
 		_senseNoise = sense_noise;
 	}
 
-	public List<Double> sense() {
+	public NavigableMap<Integer, Double> sense() {
 		
-		List<Double> readings = new ArrayList<>();
+		// map to store the landmark and the reading from that landmark
+		NavigableMap<Integer, Double> readingsMap = new TreeMap<>();
 		double distance = 0.0;
 		double x_pos_sq = 0.0;
 		double y_pos_sq = 0.0;
@@ -98,10 +106,14 @@ public class Robot {
 
 			distance = Math.sqrt(x_pos_sq + y_pos_sq);
 			distance += _rand.nextGaussian() * _senseNoise + 0.0;
-			readings.add(distance);
+			
+			// if the sensed landmark was within range add it to the measurement vector
+			if (distance <= _sensorRange) {
+				readingsMap.put(currLandmark._id, distance);
+			}
 		}
 
-		return readings;
+		return readingsMap;
 	}
 
 	public Robot move(double turn, double forward) {
@@ -121,7 +133,7 @@ public class Robot {
 		newX = Util.mod(newX, _worldSizeWidth);
 		newY = Util.mod(newY, _worldSizeHeight);
 
-		Robot newRobot = new Robot(_parent, _worldSizeWidth, _worldSizeHeight, _landmarks);
+		Robot newRobot = new Robot(_parent, _worldSizeWidth, _worldSizeHeight, _landmarks, _sensorRange);
 		newRobot.setPose(newX, newY, newHeading);
 		newRobot.setNoise(_forwardNoise, _turnNoise, _senseNoise);
 		return newRobot;
@@ -136,10 +148,11 @@ public class Robot {
 		int Blue 	= _parent.color(30, 80, 200);
 		int White 	= _parent.color(255);
 		int Black 	= _parent.color(0);
+		final int MUL = 10;
 		
 		_parent.fill(Red, 255);
 		_parent.ellipseMode(PApplet.CENTER);
-		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 20, 20);
+		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL, 20, 20);
 		
 		// draw heading pointer
 		final float lineLen = 1.5f;
@@ -147,7 +160,17 @@ public class Robot {
 		_parent.stroke(Black, 150);
 		double endX = _xPos + (Math.cos(_heading) * lineLen);
 		double endY = _yPos + (Math.sin(_heading) * lineLen);
-		_parent.line((float)_xPos * 10, (float)_yPos * 10, (float)endX * 10, (float)endY * 10);
+		_parent.line((float)_xPos * MUL, (float)_yPos * MUL, (float)endX * MUL, (float)endY * MUL);
+		
+		// draw the sensor range ring
+		_parent.strokeWeight(0);
+		_parent.stroke(Red, 180);
+		_parent.fill(Red, 30);
+		_parent.ellipseMode(PApplet.CENTER);
+		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL, (float)_sensorRange * MUL, (float)_sensorRange * MUL);
+		
+		_parent.stroke(Black, 255);
+		
 	}
 
 	

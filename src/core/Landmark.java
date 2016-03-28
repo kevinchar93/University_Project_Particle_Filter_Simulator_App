@@ -27,11 +27,12 @@ public class Landmark {
 		int Blue 	= _parent.color(0, 0, 255);
 		int White 	= _parent.color(255);
 		int Black 	= _parent.color(0);
+		final int MUL = 10;
 		
 		_parent.strokeWeight(0);
 		_parent.fill(Green);
 		_parent.ellipseMode(PApplet.CENTER);
-		_parent.ellipse((float)_xPos * 10, (float)_yPos * 10, 15, 15);
+		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL, 10, 10);
 	}
 
 }
