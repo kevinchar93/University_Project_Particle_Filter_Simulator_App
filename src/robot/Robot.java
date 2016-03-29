@@ -10,7 +10,7 @@ import java.util.TreeMap;
 
 import map.Landmark;
 import processing.core.PApplet;
-import util.Util;
+import util.UtilMath;
 
 public class Robot {
 
@@ -125,15 +125,15 @@ public class Robot {
 		}
 
 		double newHeading = _heading + turn + (_rand.nextGaussian() * _turnNoise + 0.0);
-		newHeading = Util.mod(newHeading, 2 * Math.PI);
+		newHeading = UtilMath.mod(newHeading, 2 * Math.PI);
 
 		double dist = forward + (_rand.nextGaussian() * _forwardNoise + 0.0);
 		double newX = _xPos + (Math.cos(newHeading) * dist);
 		double newY = _yPos + (Math.sin(newHeading) * dist);
 
 		// the world is cyclic , wrap the robots position
-		newX = Util.mod(newX, _worldSizeWidth);
-		newY = Util.mod(newY, _worldSizeHeight);
+		newX = UtilMath.mod(newX, _worldSizeWidth);
+		newY = UtilMath.mod(newY, _worldSizeHeight);
 
 		Robot newRobot = new Robot(_parent, _worldSizeWidth, _worldSizeHeight, _landmarks, _sensorRange);
 		newRobot.setPose(newX, newY, newHeading);

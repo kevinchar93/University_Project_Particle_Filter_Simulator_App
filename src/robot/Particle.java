@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import map.Landmark;
 import processing.core.PApplet;
-import util.Util;
+import util.UtilMath;
 
 public class Particle extends Robot {
 	
@@ -42,7 +42,7 @@ public class Particle extends Robot {
 			dist = Math.sqrt(xPosSq + yPosSq);
 			
 			// multiplying to get the joint probability of all the measurements
-			prob *= Util.gaussianFormula(entry.getValue(), dist, _senseNoise);
+			prob *= UtilMath.gaussianFormula(entry.getValue(), dist, _senseNoise);
 		}
 
 		return prob;

@@ -1,6 +1,6 @@
 package util;
 
-public class Util {
+public class UtilMath {
 
 	public static double mod(double numA, double numB) {
 		return (numA % numB + numB) % numB;
