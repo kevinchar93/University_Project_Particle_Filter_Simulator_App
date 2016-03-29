@@ -1,4 +1,4 @@
-package core;
+package map;
 
 import processing.core.PApplet;
 

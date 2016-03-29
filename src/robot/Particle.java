@@ -1,10 +1,12 @@
-package core;
+package robot;
 
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.Map.Entry;
 
+import map.Landmark;
 import processing.core.PApplet;
+import util.Util;
 
 public class Particle extends Robot {
 	
@@ -47,7 +49,7 @@ public class Particle extends Robot {
 	}
 	
 	@Override
-	void draw() {
+	public void draw() {
 		int Yellow 	= _parent.color(255, 255, 0);
 		int Red 	= _parent.color(255, 0, 0);
 		int Green 	= _parent.color(0, 255, 0);

@@ -1,4 +1,4 @@
-package core;
+package robot;
 import processing.core.*;
 
 import java.math.BigDecimal;
@@ -8,7 +8,9 @@ import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 
+import map.Landmark;
 import processing.core.PApplet;
+import util.Util;
 
 public class Robot {
 
@@ -140,7 +142,7 @@ public class Robot {
 	}
 	
 	
-	void draw() {
+	public void draw() {
 		
 		int Yellow 	= _parent.color(255, 255, 0);
 		int Red 	= _parent.color(255, 80, 80);

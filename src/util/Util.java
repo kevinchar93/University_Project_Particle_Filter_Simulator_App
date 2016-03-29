@@ -1,4 +1,4 @@
-package core;
+package util;
 
 public class Util {
 
