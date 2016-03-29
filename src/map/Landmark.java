@@ -29,10 +29,18 @@ public class Landmark {
 		int Black 	= _parent.color(0);
 		final int MUL = 10;
 		
+		// flip and invert the axis to place (0,0) in bottom left corner
+		_parent.translate(0, _parent.height);
+		_parent.scale(1, -1);
+		
 		_parent.strokeWeight(0);
 		_parent.fill(Green);
 		_parent.ellipseMode(PApplet.CENTER);
 		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL, 10, 10);
+		
+		// flip and invert the axis to place (0,0) back in top left corner
+		_parent.translate(0, _parent.height);
+		_parent.scale(1, -1);
 	}
 
 }

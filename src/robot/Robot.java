@@ -19,7 +19,7 @@ public class Robot {
 	// world information
 	final double _worldSizeWidth;
 	final double _worldSizeHeight;
-	List<Landmark> _landmarks = new ArrayList<>();
+	List<Landmark> _landmarks;
 
 	// pose information
 	protected double _xPos = 0.0;
@@ -40,7 +40,7 @@ public class Robot {
 		_worldSizeWidth = worldSizeWidth;
 		_worldSizeHeight = worldSizeHeight;
 		_sensorRange = sensorRange;
-		_landmarks.addAll(landmarks);
+		_landmarks = landmarks;
 
 		// randomly initialize the pose of the robot
 		_xPos = worldSizeWidth * _rand.nextDouble();
@@ -152,6 +152,11 @@ public class Robot {
 		int Black 	= _parent.color(0);
 		final int MUL = 10;
 		
+		// flip and invert the axis to place (0,0) in bottom left
+		_parent.translate(0, _parent.height);
+		_parent.scale(1, -1);
+		
+		// draw center ellipse
 		_parent.fill(Red, 255);
 		_parent.ellipseMode(PApplet.CENTER);
 		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL, 20, 20);
@@ -173,6 +178,9 @@ public class Robot {
 		
 		_parent.stroke(Black, 255);
 		
+		// flip and invert the axis to place (0,0) back in top left corner
+		_parent.translate(0, _parent.height);
+		_parent.scale(1, -1);
 	}
 
 	

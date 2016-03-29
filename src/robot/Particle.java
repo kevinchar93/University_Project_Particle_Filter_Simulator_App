@@ -58,6 +58,10 @@ public class Particle extends Robot {
 		int Black 	= _parent.color(0);
 		final int MUL = 10;
 		
+		// flip and invert the axis to place (0,0) in bottom left
+		_parent.translate(0, _parent.height);
+		_parent.scale(1, -1);
+		
 		// draw center ellipse
 		_parent.strokeWeight(0);
 		_parent.stroke(Black, 50);
@@ -68,10 +72,14 @@ public class Particle extends Robot {
 		// draw heading pointer
 		final float pointerLen = 1.0f;
 		_parent.strokeWeight(0);
-		_parent.stroke(Black, 50);
+		_parent.stroke(Black, 70);
 		double endX = _xPos + (Math.cos(_heading) * pointerLen);
 		double endY = _yPos + (Math.sin(_heading) * pointerLen);
 		_parent.line((float)_xPos * MUL, (float)_yPos * MUL, (float)endX * MUL, (float)endY * MUL);
+		
+		// flip and invert the axis to place (0,0) back in top left corner
+		_parent.translate(0, _parent.height);
+		_parent.scale(1, -1);
 	}
 	
 	
