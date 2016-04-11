@@ -34,6 +34,7 @@ public class Robot {
 
 	protected Random _rand = new Random();
 
+	
 	public Robot(PApplet parent, double worldSizeWidth, double worldSizeHeight, List<Landmark> landmarks, double sensorRange) {
 
 		_parent = parent;
@@ -47,6 +48,7 @@ public class Robot {
 		_yPos = worldSizeHeight * _rand.nextDouble();
 		_heading = (2 * Math.PI) * _rand.nextDouble();
 	}
+	
 	
 	public Robot(Robot robot) {
 		
@@ -85,13 +87,20 @@ public class Robot {
 
 		return true;
 	}
+	
+	
+	public void setSensorRange (double sensorRange) {
+		_sensorRange = sensorRange;
+	}
 
+	
 	public void setNoise(double forward_noise, double turn_noise, double sense_noise) {
 		_forwardNoise = forward_noise;
 		_turnNoise = turn_noise;
 		_senseNoise = sense_noise;
 	}
 
+	
 	public NavigableMap<Integer, Double> sense() {
 		
 		// map to store the landmark and the reading from that landmark
@@ -118,6 +127,7 @@ public class Robot {
 		return readingsMap;
 	}
 
+	
 	public Robot move(double turn, double forward) {
 
 		if (forward < 0) {
@@ -190,16 +200,23 @@ public class Robot {
 		return String.format("X: %.3f Y: %.3f Heading: %.3f", _xPos, _yPos, Math.toDegrees(_heading));
 	}
 	
+	
 	public double getX() {
 		return _xPos;
 	}
+	
 	
 	public double getY() {
 		return _yPos;
 	}
 	
+	
 	public double getHeading() {
 		return _heading;
+	}
+	
+	public PApplet getParent() {
+		return _parent;
 	}
 	
 	
