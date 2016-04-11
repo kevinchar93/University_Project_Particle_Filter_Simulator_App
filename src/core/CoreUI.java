@@ -97,9 +97,6 @@ public class CoreUI extends PApplet {
 					
 			// Draw the simulation
 			background(240);
-			// Draw area for control panel
-			fill(153);
-			rect(1000, 0, 366, height);
 			
 			prevTime = this.millis();
 			
@@ -115,6 +112,10 @@ public class CoreUI extends PApplet {
 			
 			// draw robot
 			robot.draw();
+			
+			// Draw area for control panel
+			fill(153);
+			rect(1000, 0, 366, height);
 		}
 		else {
 			// Draw area for control panel
@@ -126,13 +127,11 @@ public class CoreUI extends PApplet {
 	
 	public void mousePressed() {
 		
-		
-		
 		// when in this mode we are adding landmarks
 		if (true == ADDING_LANDMARKS_MODE) {
 			
 			final double xPosLandmark = mouseX / 10.0;
-			final double yPosLandmark = (height-mouseY) / 10.0;
+			final double yPosLandmark = mouseY / 10.0;
 			
 			// make sure selected position is in the drawn world (not near buttons)
 			if (xPosLandmark <= WORLD_SIZE_WIDTH && yPosLandmark <= WORLD_SIZE_HEIGHT) {
