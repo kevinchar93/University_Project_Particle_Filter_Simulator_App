@@ -16,6 +16,7 @@ import map.Landmark;
 import processing.core.*;
 import robot.Particle;
 import robot.Robot;
+import util.UtilMath;
 import util.UtilParticle;
 
 public class CoreUI extends PApplet {
@@ -26,7 +27,7 @@ public class CoreUI extends PApplet {
 	final double WORLD_SIZE_HEIGHT 	= 76.8;
 	
 	// User set variables
-	double Sensor_Range = 50;
+	double Sensor_Range = 25;
 	int Number_Of_Particles = 1000;
 	double Forward_Noise = 0.05;
 	double Turn_Noise = 0.05;
@@ -77,22 +78,57 @@ public class CoreUI extends PApplet {
 		
 		setupUserInterface();
 		setupListeners();
+		
 	}
 
+	final float LOW_RAND_MOTION_DUR = 5;	// smallest motion duration possible
+	final float HIGH_RAND_MOTION_DUR = 15;	// largest motion duration possible
+	
+	final float LOW_RAND_MOTION_FWD = 0.5f;	// smallest forward motion possible
+	final float HIGH_RAND_MOTION_FWD = 1.5f;	// largest forward motion possible
+	
+	float noiseSeed = 0.01f;
+	long motionDuration = 10;
+	int simCount = 0;
+	
+	float diffAngle = 0;
+	double turnAngle = 0;
+	double forwardMotion = 1;
 	
 	public void draw() {
 		
 		if ((this.millis() - prevTime) > Frame_Delay) {
+			
 			// update the position of the robot and the particles
 			if (true == IS_SIM_RUNNING) {
 				
-				robot = robot.move(0.1, 5);
-				particlesList = UtilParticle.moveParticles(particlesList, 0.1, 5);
+				// generate a random motion vector (turnAngle/forwardMotion) and perform it for
+				// as many frames specified by motionDuration
+			    if (0 == (simCount % motionDuration)) {
+			    	
+			    	// randomly decide the motion duration
+			    	motionDuration = (int)(random(LOW_RAND_MOTION_DUR, HIGH_RAND_MOTION_DUR));
+			    	
+			    	// create a smooth random changing of turnAngle using random Gaussian
+			    	turnAngle = rand.nextGaussian() * (PI / 40);
+			    	
+			    	// randomly decide the value for forward motion
+			    	forwardMotion = random(LOW_RAND_MOTION_FWD, HIGH_RAND_MOTION_FWD);
+			    	
+			    	// reset the simCount
+			    	simCount = 0;
+			    }
+				
+				robot = robot.move(turnAngle, forwardMotion);
+				particlesList = UtilParticle.moveParticles(particlesList, turnAngle, forwardMotion);
 		
 				sensorReadings = robot.sense();
 				particlesList = UtilParticle.weighParticles(particlesList, sensorReadings);
 				
-				particlesList = UtilParticle.resampleParticlesBigDecimal(particlesList);
+				boolean doRandomSample = (0 == (simCount % 2500));
+				particlesList = UtilParticle.resampleParticlesBigDecimal(particlesList, doRandomSample);
+				
+				simCount++;
 			}
 					
 			// Draw the simulation
@@ -213,7 +249,7 @@ public class CoreUI extends PApplet {
 		sensorRange.getCaptionLabel()
 			 	   .setSize(standardLabelTextSize);
 		
-		sensorRange.setText("100");
+		sensorRange.setText("25");
 		
 		/* turning noise text field ------------------------------------------ */
 		final int turnNoiseY = (height / standardHeightDivisor) * 7;
@@ -266,7 +302,7 @@ public class CoreUI extends PApplet {
 				   .setPosition(standardXPos, frameDelayY)
 				   .setSize(standardFieldWidth, standardFieldHeight)
 				   .setFont(ArialFont16)
-				   .setCaptionLabel("Frame delay")
+				   .setCaptionLabel("Frame delay - milliseconds")
 				   .setColorCaptionLabel(0)
 				   .setColor(this.color(255, 255, 255));
 		
@@ -509,7 +545,7 @@ public class CoreUI extends PApplet {
 				}
 				
 				/* Use the settings gathered to initialise the program ------- */
-				robot.setSensorRange(Sensor_Range);
+				robot = new Robot(robot.getParent(), WORLD_SIZE_WIDTH, WORLD_SIZE_HEIGHT, landmarks, Sensor_Range);
 				robot.setNoise(Forward_Noise, Turn_Noise, Sensor_Noise);
 				particlesList = UtilParticle.genParticles(robot.getParent(), Number_Of_Particles, WORLD_SIZE_WIDTH, 
 														  WORLD_SIZE_HEIGHT, landmarks, Sensor_Range, Forward_Noise, 

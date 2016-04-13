@@ -22,6 +22,12 @@ public class Particle extends Robot {
 		super(robot);
 	}
 	
+	public void randomisePose () {
+		_xPos = _worldSizeWidth * _rand.nextDouble();
+		_yPos = _worldSizeHeight * _rand.nextDouble();
+		_heading = (2 * Math.PI) * _rand.nextDouble();
+	}
+	
 	public double measurementProb(NavigableMap<Integer, Double> measurementVec) {
 		
 		double prob = 1.0;

@@ -149,12 +149,33 @@ public class UtilParticle {
 	 * @param originParticles the list of particles to create the new sample from
 	 * @return the newly resampled list of particles
 	 */
-	public static List<Particle> resampleParticlesBigDecimal(List<Particle> originParticles) {
+	public static List<Particle> resampleParticlesBigDecimal(List<Particle> originParticles, boolean addRandomParticles) {
 
+		final float PERCENTAGE_RANDOM = 0.1f;
+		final float PERCENTAGE_NORMAL = 0.9f;
+		
+		final int ORIGIN_SIZE = originParticles.size();
+		final int NORMAL_SAMPLE_SIZE;
+		final int RANDOM_SAMPLE_SIZE;
+		
+		if (ORIGIN_SIZE >= 100 && addRandomParticles == true) {
+			// get calculate how much 10% is of the number of particles (ensures a whole number)
+			int div = ORIGIN_SIZE / 100;
+			int nearestHundred = div * 100; 
+			int remainder = ORIGIN_SIZE - nearestHundred;
+			NORMAL_SAMPLE_SIZE = (int)((PERCENTAGE_NORMAL * nearestHundred) + remainder);
+			RANDOM_SAMPLE_SIZE = (int)(PERCENTAGE_RANDOM * nearestHundred);
+		}
+		else {
+			// not enough particles to do a random sample
+			NORMAL_SAMPLE_SIZE = ORIGIN_SIZE;
+			RANDOM_SAMPLE_SIZE = 0;
+		}
+		
 		// map the particles to a finite range less than 1 that defines
 		// how likely they are to be correct, re-sample based on this map
 		NavigableMap<BigDecimal, Particle> probMap = new TreeMap<>();
-		final int ORIGIN_SIZE = originParticles.size();
+		
 
 		// accumulate the probability of each particle into probabilitySum and
 		// use it to give each particle a slice of the values from 0 - 1
@@ -174,7 +195,7 @@ public class UtilParticle {
 		// N new particles for the re-sample, the probability of a particle
 		// being picked depends on the plausibility of the particles measurement
 		// vector
-		for (int i = 0; i < ORIGIN_SIZE; i++) {
+		for (int i = 0; i < NORMAL_SAMPLE_SIZE; i++) {
 
 			// use random num between [0 : 1) to choose particle
 			BigDecimal randVal = new BigDecimal(_rand.nextDouble());
@@ -183,6 +204,17 @@ public class UtilParticle {
 			// NOTE: we use the copy constructor here as each particle must be a
 			// new distinct particle with its own allocated memory & attributes
 			newParticles.add(new Particle(pickedParticle));
+		}
+		
+		// put a portion of particles in the distribution with random poses
+		for (int i = 0; i < RANDOM_SAMPLE_SIZE; i++) {
+			
+			Particle tempPar = originParticles.get(0);
+			
+			// create a random pose 
+			Particle randomParticle = new Particle(tempPar);
+			randomParticle.randomisePose();
+			newParticles.add(randomParticle);
 		}
 
 		return newParticles;

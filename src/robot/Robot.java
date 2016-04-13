@@ -180,7 +180,7 @@ public class Robot {
 		_parent.stroke(Red, 180);
 		_parent.fill(Red, 30);
 		_parent.ellipseMode(PApplet.CENTER);
-		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL, (float)_sensorRange * MUL, (float)_sensorRange * MUL);
+		_parent.ellipse((float)_xPos * MUL, (float)_yPos * MUL , (float)_sensorRange * MUL * 2, (float)_sensorRange * MUL * 2);
 		
 		_parent.stroke(Black, 255);
 	}

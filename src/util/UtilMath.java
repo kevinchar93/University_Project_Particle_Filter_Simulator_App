@@ -5,6 +5,10 @@ public class UtilMath {
 	public static double mod(double numA, double numB) {
 		return (numA % numB + numB) % numB;
 	}
+	
+	public static int mod(int numA, int numB) {
+		return (numA % numB + numB) % numB;
+	}
 
 	/**
 	 * Find the probability of a measurement x from a landmark sensor, given a gaussian 
