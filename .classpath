@@ -2,37 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="box2d_processing.jar"/>
-	<classpathentry kind="lib" path="Combinatorics.jar"/>
-	<classpathentry kind="lib" path="commons-pool-1.5.4.jar"/>
-	<classpathentry kind="lib" path="ComputationalGeometry.jar"/>
 	<classpathentry kind="lib" path="Console.jar"/>
 	<classpathentry kind="lib" path="controlP5.jar"/>
 	<classpathentry kind="lib" path="core.jar"/>
-	<classpathentry kind="lib" path="geoapi-2.3-M1.jar"/>
-	<classpathentry kind="lib" path="geoapi-pending-2.3-M1.jar"/>
-	<classpathentry kind="lib" path="gt-api-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-cql-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-data-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-epsg-hsql-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-main-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-metadata-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-referencing-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="gt-shapefile-2.7-M3.jar"/>
-	<classpathentry kind="lib" path="hsqldb-1.8.0.7.jar"/>
-	<classpathentry kind="lib" path="jbox2d-library-2.2.1-ds.jar"/>
-	<classpathentry kind="lib" path="jdom-1.0.jar"/>
-	<classpathentry kind="lib" path="jsr-275-1.0-beta-2.jar"/>
-	<classpathentry kind="lib" path="jts-1.11.jar"/>
-	<classpathentry kind="lib" path="log4j.jar"/>
-	<classpathentry kind="lib" path="MapThing.jar"/>
-	<classpathentry kind="lib" path="motion.jar"/>
-	<classpathentry kind="lib" path="Path_Finder.jar"/>
-	<classpathentry kind="lib" path="point2line.jar"/>
-	<classpathentry kind="lib" path="slf4j-api.jar"/>
-	<classpathentry kind="lib" path="slf4j-log4j.jar"/>
-	<classpathentry kind="lib" path="Sprites.jar"/>
-	<classpathentry kind="lib" path="vecmath-1.3.2.jar"/>
-	<classpathentry kind="lib" path="xercesImpl-2.7.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
