@@ -1,5 +1,5 @@
-# Particle Filter Simulator Application (Final Year Project)
-This repo is one of a number from my final year project at university. This in particular is for a piece of software used to simulate two dimensional Monte Carlo localisation. More specific details about the project and the Particle Filter Simulator App in particular can be found below.
+# Particle Filter Simulator (Final Year Project)
+This repo is one of a number from my final year project at university. This in particular is for a piece of software used to simulate two dimensional Monte Carlo localisation. More specific details about the project and the Particle Filter Simulator in particular can be found below.
 
 ### About the Project
 My final year project at university was inspired somewhat by my placement year where I worked on programming embedded systems in the form of TV set top boxes, having had this experience I decided to work on a project that dealt with some form of embedded system. In the end I decided to construct and program a robot capable of localising itself in two dimensions.
@@ -16,7 +16,7 @@ In total for the project 4 deliverables were created (links to repos in brackets
 
 ![Robot image lidar](https://github.com/kevinchar93/University_Project_Grid_Loclisation_App/blob/master/robot1.PNG "The Complete Robot")
 
-### More about the Particle Filter Simulator Application
+### More about the Particle Filter Simulator
 
 <more details about the particle filter>
 
