@@ -30,10 +30,15 @@ With the software being a simulator realism was a key requirement. Originally th
 In the simulation the robot is limited to a world size defined in pixels and can only use landmark points to localise, the distance to these point is calculated using the pythagorean theorem and noise in the robot’s movement and sensing is simulated using Gaussians, the mean being the measurement and the variance being the amount of noise. The simulation is based on a simpler example of Monte Carlo Localisation presented in Udacity Course CS 373 (Georgia Institute of Technology 2013).
 
 The diagram below presents how the Particle Filter Simulator operates:
-
 <p align="center">
 <img src="https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App/blob/master/monter_carlo_localisation_flowchart.png" 
-alt="The Complete Robot" width="537" height="555" border="10" />
+alt="Monte Carlo localisation flow chart" width="537" height="555" border="10" />
+</p>
+
+The supporting pseudo code below shows how the critical resampling step is performed:
+<p align="center">
+<img src="https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App/blob/master/psuedo_screen.png" 
+alt="Resampling step pseudo code" width="642" height="494" border="10" />
 </p>
 
 See the report "[**An Implementation of a Mobile Robot with Localisation Capabilities**](https://github.com/kevinchar93/University_Project_Mobile_Platform_SW/blob/master/An%20Implementation%20of%20a%20Mobile%20Robot%20with%20Localisation%20Capabilities.pdf)" for more details.
