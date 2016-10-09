@@ -21,6 +21,21 @@ In total for the project 4 deliverables were created (links to repos in brackets
 
 ### More about the Particle Filter Simulator
 
+An advanced goal of the project was to perform 2D localisation with the physical robot this was not achieved due to issues with configuring an IMU which was to be used for accurate turning, in its place a simulation of 2D localisation was implemented performed in a simplified virtual world.
+
+The two dimensional localisation software makes use of the Monte Carlo localisation method to localize a robot in a simulated environment, as mentioned earlier a simulator was used due to issues with the robot’s turning, but firstly building a simulator would be the natural route to take before implementing the method with a physical robot.
+
+With the software being a simulator realism was a key requirement. Originally the software was going to work by simulating map geometry and the robot would cast rays to detect the distance to said geometry and localise, however this initial implementation of the software uses a simpler model with explicit landmark points in the world that the robot can detect the distance to. The more realistic ray casting model can be implemented in future. Other features that are present to add realism to the simulation are a limit to the range of the landmark sensor as well as Gaussian noise that is added to the movement and measurements that the robot makes just like there would be in the real world.
+
+In the simulation the robot is limited to a world size defined in pixels and can only use landmark points to localise, the distance to these point is calculated using the pythagorean theorem and noise in the robot’s movement and sensing is simulated using Gaussians, the mean being the measurement and the variance being the amount of noise. The simulation is based on a simpler example of Monte Carlo Localisation presented in Udacity Course CS 373 (Georgia Institute of Technology 2013).
+
+The diagram below presents how the Particle Filter Simulator operates:
+
+<p align="center">
+<img src="https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App/blob/master/monter_carlo_localisation_flowchart.png" 
+alt="The Complete Robot" width="537" height="555" border="10" />
+</p>
+
 See the report "[**An Implementation of a Mobile Robot with Localisation Capabilities**](https://github.com/kevinchar93/University_Project_Mobile_Platform_SW/blob/master/An%20Implementation%20of%20a%20Mobile%20Robot%20with%20Localisation%20Capabilities.pdf)" for more details.
 
 ## License
