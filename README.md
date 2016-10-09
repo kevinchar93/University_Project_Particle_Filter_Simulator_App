@@ -2,7 +2,7 @@
 This repo is one of a number from my final year project at university. This in particular is for a piece of software used to simulate two dimensional Monte Carlo localisation. More specific details about the project and the Particle Filter Simulator in particular can be found below.
 
 <p align="center">
-<img src="https://github.com/kevinchar93/University_Project_Grid_Loclisation_App/blob/master/robot1.PNG" 
+<img src="https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App/blob/master/part_filter_out.gif" 
 alt="The Complete Robot" width="480" height="345" border="10" />
 </p>
 
