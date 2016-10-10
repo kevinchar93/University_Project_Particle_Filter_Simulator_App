@@ -1,5 +1,5 @@
-# Particle Filter Simulator (Final Year Project)
-This repo is one of a number from my final year project at university. This in particular is for a piece of software used to simulate two dimensional Monte Carlo localisation. More specific details about the project and the Particle Filter Simulator in particular can be found below.
+# Robot Localisation Simulator (Final Year Project)
+This repo is one of a number from my final year project at university. This in particular is for a piece of software used to simulate two dimensional Monte Carlo localisation. More specific details about the project and the Robot Localisation Simulator in particular can be found below.
 
 <p align="center">
 <img src="https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App/blob/master/part_filter_out.gif" 
@@ -17,9 +17,23 @@ In total for the project 4 deliverables were created (links to repos in brackets
 * The actual physical robot
 * The software on the robot's embedded platform ([Mobile Platform SW](https://github.com/kevinchar93/University_Project_Mobile_Platform_SW))
 * Software used to control the robot remotely & estimate its position ([Grid Localisation App](https://github.com/kevinchar93/University_Project_Grid_Loclisation_App))
-* A two dimensional Monte Carlo localisation simulator  ([Particle Filter Simulator App](https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App))
+* A two dimensional Monte Carlo localisation simulator  ([Robot Localisation Simulator](https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App))
 
-### More about the Particle Filter Simulator
+## Videos of Robot Localisation Simulator in Action
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=T8QjSjQnkiQ
+" target="_blank"><img src="http://img.youtube.com/vi/T8QjSjQnkiQ/0.jpg" 
+alt="Zumo Robot in Maze" width="620" height="400" border="10" /></a>
+</p>
+
+<p align="center">
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=FbZRvst70JM
+" target="_blank"><img src="http://img.youtube.com/vi/FbZRvst70JM/0.jpg" 
+alt="Zumo Robot in Maze" width="620" height="400" border="10" /></a>
+</p>
+
+### More about the Robot Localisation Simulator
 
 An advanced goal of the project was to perform 2D localisation with the physical robot this was not achieved due to issues with configuring an IMU which was to be used for accurate turning, in its place a simulation of 2D localisation was implemented performed in a simplified virtual world.
 
@@ -29,7 +43,7 @@ With the software being a simulator realism was a key requirement. Originally th
 
 In the simulation the robot is limited to a world size defined in pixels and can only use landmark points to localise, the distance to these point is calculated using the pythagorean theorem and noise in the robot’s movement and sensing is simulated using Gaussians, the mean being the measurement and the variance being the amount of noise. The simulation is based on a simpler example of Monte Carlo Localisation presented in Udacity Course CS 373 (Georgia Institute of Technology 2013).
 
-The diagram below presents how the Particle Filter Simulator operates:
+The diagram below presents how the Robot Localisation Simulator operates:
 <p align="center">
 <img src="https://github.com/kevinchar93/University_Project_Particle_Filter_Simulator_App/blob/master/monter_carlo_localisation_flowchart.png" 
 alt="Monte Carlo localisation flow chart" width="537" height="555" border="10" />
